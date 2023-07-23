@@ -5,6 +5,9 @@ router
   .route("/")
   .post(postController.createPost)
   .get(postController.getAllPosts);
-  
-router.route("/:id").get(postController.getPostById);
+
+router
+  .route("/:id")
+  .get(postController.getPostById)
+  .put(postController.updatePost);
 export default router;

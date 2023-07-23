@@ -65,4 +65,32 @@ const getPostById = async (id: number) => {
   return data;
 };
 
-export default { createPost, getAllPosts, getPostById };
+const updatePost = async (
+  id: number,
+  title?: string,
+  content?: string,
+  categoryName?: string
+) => {
+  const data: Record<string, any> = { title: title, content: content };
+  if (categoryName) {
+    data["category"] = {
+      connectOrCreate: {
+        where: {
+          name: categoryName,
+        },
+        create: {
+          name: categoryName,
+        },
+      },
+    };
+  }
+
+  const updatedPost = await dbClient.posts.update({
+    where: {
+      id,
+    },
+    data
+  });
+  return updatedPost;
+};
+export default { createPost, getAllPosts, getPostById, updatePost };

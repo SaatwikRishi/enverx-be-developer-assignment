@@ -115,7 +115,10 @@ const updatePost = async (
     where: {
       id,
     },
-    data,
+    data: {
+      updatedAt: new Date(Date.now()).toISOString(),
+      ...data,
+    },
   });
   return updatedPost;
 };

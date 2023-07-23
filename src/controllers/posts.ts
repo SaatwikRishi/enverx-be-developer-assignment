@@ -4,7 +4,6 @@ import postService from "../services/posts";
 const getAllPosts = async (req: Request, res: Response, next: Function) => {
   try {
     const { sortBy, category } = req.query;
-
     const posts = await postService.getAllPosts(
       sortBy as string,
       category as string
@@ -25,4 +24,19 @@ const createPost = async (req: Request, res: Response, next: Function) => {
   }
 };
 
-export default { createPost, getAllPosts };
+export const getPostById = async (
+  req: Request,
+  res: Response,
+  next: Function
+) => {
+  try {
+    const { id } = req.params;
+    const parsedId = parseInt(id);
+    const post = await postService.getPostById(parsedId);
+    res.json(post);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { createPost, getAllPosts, getPostById };

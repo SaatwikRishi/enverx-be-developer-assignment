@@ -5,4 +5,6 @@ router
   .route("/")
   .post(postController.createPost)
   .get(postController.getAllPosts);
+  
+router.route("/:id").get(postController.getPostById);
 export default router;

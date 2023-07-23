@@ -48,10 +48,21 @@ const parseFilter = (sortBy?: string, category?: string) => {
 };
 
 const getAllPosts = async (sortBy?: string, category?: string) => {
-  console.log(category)
   const filter = parseFilter(sortBy, category);
   const posts = await dbClient.posts.findMany(filter as any);
   return posts;
 };
 
-export default { createPost, getAllPosts };
+const getPostById = async (id: number) => {
+  const data = await dbClient.posts.findFirst({
+    where: {
+      id,
+    },
+  });
+  if (!data) {
+    return {};
+  }
+  return data;
+};
+
+export default { createPost, getAllPosts, getPostById };

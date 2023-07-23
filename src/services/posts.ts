@@ -30,4 +30,28 @@ const createPost = async ({
   return newPost;
 };
 
-export default { createPost };
+const parseFilter = (sortBy?: string, category?: string) => {
+  const body: Record<string, any> = {};
+  if (sortBy) {
+    body["orderBy"] = {
+      sortBy: "desc",
+    };
+  }
+  if (category) {
+    body["where"] = {
+      category: {
+        name: category,
+      },
+    };
+  }
+  return body;
+};
+
+const getAllPosts = async (sortBy?: string, category?: string) => {
+  console.log(category)
+  const filter = parseFilter(sortBy, category);
+  const posts = await dbClient.posts.findMany(filter as any);
+  return posts;
+};
+
+export default { createPost, getAllPosts };

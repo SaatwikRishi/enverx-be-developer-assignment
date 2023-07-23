@@ -3,5 +3,6 @@ import postController from "../controllers/posts";
 const router = Router();
 router
   .route("/")
-  .post(postController.createPost);
+  .post(postController.createPost)
+  .get(postController.getAllPosts);
 export default router;

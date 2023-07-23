@@ -49,12 +49,36 @@ const parseFilter = (sortBy?: string, category?: string) => {
 
 const getAllPosts = async (sortBy?: string, category?: string) => {
   const filter = parseFilter(sortBy, category);
-  const posts = await dbClient.posts.findMany(filter as any);
+  const posts = await dbClient.posts.findMany({
+    include: {
+      category: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    ...filter,
+  });
+  if (posts.length === 0) {
+    return [];
+  }
+  posts.forEach((post) => {
+    post.categoryId = undefined;
+    (post.category as any) = post.category.name;
+  });
+
   return posts;
 };
 
 const getPostById = async (id: number) => {
   const data = await dbClient.posts.findFirst({
+    include: {
+      category: {
+        select: {
+          name: true,
+        },
+      },
+    },
     where: {
       id,
     },
@@ -62,6 +86,8 @@ const getPostById = async (id: number) => {
   if (!data) {
     return {};
   }
+  data.categoryId = undefined;
+  (data.category as any) = data.category.name;
   return data;
 };
 

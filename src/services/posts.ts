@@ -34,7 +34,7 @@ const parseFilter = (sortBy?: string, category?: string) => {
   const body: Record<string, any> = {};
   if (sortBy) {
     body["orderBy"] = {
-      sortBy: "desc",
+      [sortBy]: "desc",
     };
   }
   if (category) {

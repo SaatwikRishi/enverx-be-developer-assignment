@@ -89,8 +89,16 @@ const updatePost = async (
     where: {
       id,
     },
-    data
+    data,
   });
   return updatedPost;
 };
-export default { createPost, getAllPosts, getPostById, updatePost };
+
+const deletePost = async (id: number) => {
+  await dbClient.posts.delete({
+    where: {
+      id,
+    },
+  });
+};
+export default { createPost, getAllPosts, getPostById, updatePost, deletePost };
